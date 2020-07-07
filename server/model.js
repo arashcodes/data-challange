@@ -31,6 +31,27 @@ seedData = (data) => {
     });
 };
 
+getRaterData = (callback, data) => {
+  const query1 = `select count(*) from dataset where rater = '${data.id}';`;
+  const query2 = `select count(*) from dataset where rater = '${data.id}' and match_3_label_agreement = true;`;
+  const query3 = `select count(*) from dataset where rater = '${data.id}' and match_5_label_agreement = true;`;
+
+  pool.query(query1, (err, res1) => {
+    pool.query(query2, (err, res2) => {
+      pool.query(query3, (err, res3) => {
+        const final = {
+          total: res1.rows[0].count,
+          match3: res2.rows[0].count,
+          match5: res3.rows[0].count,
+        }
+
+        callback(null, final);
+      })
+    })
+  })
+}
+
 module.exports = {
-  seedData
+  seedData,
+  getRaterData,
 };
