@@ -4,7 +4,7 @@
 
 2. From root/database/schema.sql, execute the sql file to create the database and its table 
 
-3. In root/server/model.js, rename the username to your username of choice
+3. From root/server/model.js, rename the PSQL's username to your username of choice
 
 4. Run “npm seed” to populate database with randomly generated data
 
