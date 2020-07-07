@@ -44,8 +44,11 @@ getRaterData = (callback, data) => {
           match3: res2.rows[0].count,
           match5: res3.rows[0].count,
         }
-
-        callback(null, final);
+        if (err) {
+          callback(err)
+        } else {
+          callback(null, final);
+        }
       })
     })
   })
