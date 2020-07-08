@@ -150,8 +150,9 @@ class App extends React.Component {
     return(
       <div>
       <button onClick={this.changeViewToMonthly}>Show October Report</button>
+      <br />
+      <br />
       {this.renderView()}
-      <Stats stats={this.state}/>
       </div>
     )
   }
