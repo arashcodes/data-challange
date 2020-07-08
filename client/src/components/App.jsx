@@ -22,6 +22,10 @@ class App extends React.Component {
     this.getAllRatersData = this. getAllRatersData.bind(this);
     this.renderView = this.renderView.bind(this);
     this.changeViewToMonthly = this.changeViewToMonthly.bind(this);
+    this.getWeek1 = this.getWeek1.bind(this);
+    this.getWeek2 = this.getWeek2.bind(this);
+    this.getWeek3 = this.getWeek3.bind(this);
+    this.getWeek4 = this.getWeek4.bind(this);
   }
 
   componentDidMount() {
@@ -118,13 +122,78 @@ class App extends React.Component {
   
   getWeek1() {
     const url = 'http://localhost:3000/weekly/1';
+    
     axios.get(url)
       .then(res => {
+        this.setState({
+          A: res.data['A'],
+          B: res.data['B'],
+          C: res.data['C'],
+          D: res.data['D'],
+          E: res.data['E'],
+        })
+      })
+      .catch(err => {
+        throw err;
+      })
+  }
 
+  getWeek2() {
+    const url = 'http://localhost:3000/weekly/2';
+    
+    axios.get(url)
+      .then(res => {
+        this.setState({
+          A: res.data['A'],
+          B: res.data['B'],
+          C: res.data['C'],
+          D: res.data['D'],
+          E: res.data['E'],
+        })
+      })
+      .catch(err => {
+        throw err;
+      })
+  }
+
+  getWeek3() {
+    const url = 'http://localhost:3000/weekly/3';
+    
+    axios.get(url)
+      .then(res => {
+        this.setState({
+          A: res.data['A'],
+          B: res.data['B'],
+          C: res.data['C'],
+          D: res.data['D'],
+          E: res.data['E'],
+        })
+      })
+      .catch(err => {
+        throw err;
+      })
+  }
+
+  getWeek4() {
+    const url = 'http://localhost:3000/weekly/4';
+    
+    axios.get(url)
+      .then(res => {
+        this.setState({
+          A: res.data['A'],
+          B: res.data['B'],
+          C: res.data['C'],
+          D: res.data['D'],
+          E: res.data['E'],
+        })
+      })
+      .catch(err => {
+        throw err;
       })
   }
 
   changeViewToMonthly() {
+    this.getAllRatersData();
     this.setState({
       view: 'monthly',
     });
@@ -145,10 +214,10 @@ class App extends React.Component {
     return(
       <div>
       <button onClick={this.changeViewToMonthly}>Month's Report</button>
-      <button >Week 1 Report</button>
-      <button >Week 2 Report</button>
-      <button >Week 3 Report</button>
-      <button >Week 4 Report</button>
+      <button onClick={this.getWeek1}>Week 1 Report</button>
+      <button onClick={this.getWeek2}>Week 2 Report</button>
+      <button onClick={this.getWeek3}>Week 3 Report</button>
+      <button onClick={this.getWeek4}>Week 4 Report</button>
       <br />
       <br />
       {this.renderView()}

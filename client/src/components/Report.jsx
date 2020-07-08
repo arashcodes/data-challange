@@ -18,7 +18,7 @@ class Report extends PureComponent {
     this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.findMostResponsiveRater();
     this.findLeastResponsiveUser();
   }
