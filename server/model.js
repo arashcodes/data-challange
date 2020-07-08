@@ -45,7 +45,7 @@ getRaterData = (callback, data) => {
           match5: res3.rows[0].count,
         }
         if (err) {
-          callback(err)
+          callback(err);
         } else {
           callback(null, final);
         }
@@ -54,7 +54,39 @@ getRaterData = (callback, data) => {
   })
 }
 
+getWeeklyData = (callback, data) => {
+  const weeks = {
+    '1': `date >= '2005-10-01' and date <= '2005-10-07'`,
+    '2': `date >= '2005-10-08' and date <= '2005-10-15'`,
+    '3': `date >= '2005-10-16' and date <= '2005-10-23'`,
+    '4': `date >= '2005-10-24' and date <= '2005-10-30'`,
+  }
+  
+  const query = `select * from dataset where "date"::${weeks[data.id]}`;
+  pool.query(query, (err, res) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, res.rows)
+    }
+  })
+}
+
+getDailyData = (callback, data) => {
+  console.log(data.day)
+  const query = `select * from dataset where "date"::date = '2005-10-${data.day}'`;
+  pool.query(query, (err, res) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, res.rows);
+    }
+  })
+}
+
 module.exports = {
   seedData,
   getRaterData,
+  getWeeklyData,
+  getDailyData,
 };
