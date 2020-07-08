@@ -1,6 +1,5 @@
 import React from 'react';
-import Stats from './Stats.jsx';
-import Monthly from './Monthly.jsx';
+import Report from './Report.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -8,11 +7,11 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      A: {total: 0, match3: 0, match5: 0},
-      B: {total: 0, match3: 0, match5: 0},
-      C: {total: 0, match3: 0, match5: 0},
-      D: {total: 0, match3: 0, match5: 0},
-      E: {total: 0, match3: 0, match5: 0},
+      A: {rater: '', total: 0, match3: 0, match5: 0},
+      B: {rater: '', total: 0, match3: 0, match5: 0},
+      C: {rater: '', total: 0, match3: 0, match5: 0},
+      D: {rater: '', total: 0, match3: 0, match5: 0},
+      E: {rater: '', total: 0, match3: 0, match5: 0},
       view: '',
     }
     this.getRaterDataA = this.getRaterDataA.bind(this);
@@ -116,6 +115,14 @@ class App extends React.Component {
         throw err;
       })
   }
+  
+  getWeek1() {
+    const url = 'http://localhost:3000/weekly/1';
+    axios.get(url)
+      .then(res => {
+
+      })
+  }
 
   changeViewToMonthly() {
     this.setState({
@@ -126,7 +133,7 @@ class App extends React.Component {
   renderView() {
     const view = this.state.view;
     if (view === 'monthly') {
-      return <Monthly data={this.state}/>;
+      return <Report data={this.state}/>;
     } else if (view === 'weekly') {
       // TODO: Add component to show weekly report
     } else if (view === 'daily') {
@@ -137,7 +144,11 @@ class App extends React.Component {
   render() {
     return(
       <div>
-      <button onClick={this.changeViewToMonthly}>October's Report</button>
+      <button onClick={this.changeViewToMonthly}>Month's Report</button>
+      <button >Week 1 Report</button>
+      <button >Week 2 Report</button>
+      <button >Week 3 Report</button>
+      <button >Week 4 Report</button>
       <br />
       <br />
       {this.renderView()}

@@ -4,7 +4,7 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
-class Monthly extends PureComponent {
+class Report extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -91,4 +91,4 @@ class Monthly extends PureComponent {
   }
 }
 
-export default Monthly;
+export default Report;
