@@ -1,5 +1,6 @@
 import React from 'react';
 import Stats from './Stats.jsx';
+import Monthly from './Monthly.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -12,15 +13,35 @@ class App extends React.Component {
       C: {total: 0, match3: 0, match5: 0},
       D: {total: 0, match3: 0, match5: 0},
       E: {total: 0, match3: 0, match5: 0},
+      view: '',
     }
     this.getRaterDataA = this.getRaterDataA.bind(this);
     this.getRaterDataB = this.getRaterDataB.bind(this);
     this.getRaterDataC = this.getRaterDataC.bind(this);
     this.getRaterDataD = this.getRaterDataD.bind(this);
     this.getRaterDataE = this.getRaterDataE.bind(this);
+    this.getAllRatersData = this. getAllRatersData.bind(this);
+    this.renderView = this.renderView.bind(this);
+    this.changeViewToMonthly = this.changeViewToMonthly.bind(this);
+    this.sortData = this.sortData.bind(this);
   }
 
   componentDidMount() {
+    this.getAllRatersData();
+  }
+
+  sortData() {
+    const data = [this.state];
+    const sorted = [];
+    for (let key in data[0]) {
+      if (key !== 'view' && key !== 'sorted')
+      sorted.push(data[0][key])
+    }
+    this.setState({sorted: sorted});
+    console.log(this.state.sorted)
+  }
+  
+  getAllRatersData() {
     this.getRaterDataA();
     this.getRaterDataB();
     this.getRaterDataC();
@@ -32,7 +53,12 @@ class App extends React.Component {
     const url = `http://localhost:3000/rater/A`;
     axios.get(url)
       .then(res => {
-        this.setState({A: res.data})
+        this.setState({A: {
+          rater: 'A',
+          total: res.data.total,
+          match3: res.data.match3,
+          match5: res.data.match5,
+        }})
       })
       .catch(err => {
         throw err;
@@ -43,7 +69,12 @@ class App extends React.Component {
     const url = `http://localhost:3000/rater/B`;
     axios.get(url)
       .then(res => {
-        this.setState({B: res.data})
+        this.setState({B: {
+          rater: 'B',
+          total: res.data.total,
+          match3: res.data.match3,
+          match5: res.data.match5,
+        }})
       })
       .catch(err => {
         throw err;
@@ -54,7 +85,12 @@ class App extends React.Component {
     const url = `http://localhost:3000/rater/C`;
     axios.get(url)
       .then(res => {
-        this.setState({C: res.data})
+        this.setState({C: {
+          rater: 'C',
+          total: res.data.total,
+          match3: res.data.match3,
+          match5: res.data.match5,
+        }})
       })
       .catch(err => {
         throw err;
@@ -65,7 +101,12 @@ class App extends React.Component {
     const url = `http://localhost:3000/rater/D`;
     axios.get(url)
       .then(res => {
-        this.setState({D: res.data})
+        this.setState({D: {
+          rater: 'D',
+          total: res.data.total,
+          match3: res.data.match3,
+          match5: res.data.match5,
+        }})
       })
       .catch(err => {
         throw err;
@@ -76,16 +117,40 @@ class App extends React.Component {
     const url = `http://localhost:3000/rater/E`;
     axios.get(url)
       .then(res => {
-        this.setState({E: res.data})
+        this.setState({E: {
+          rater: 'E',
+          total: res.data.total,
+          match3: res.data.match3,
+          match5: res.data.match5,
+        }})
       })
       .catch(err => {
         throw err;
       })
   }
 
+  changeViewToMonthly() {
+    this.setState({
+      view: 'monthly',
+    });
+  }
+
+  renderView() {
+    const view = this.state.view;
+    if (view === 'monthly') {
+      return <Monthly data={this.state}/>;
+    } else if (view === 'weekly') {
+      // TODO: Add component to show weekly report
+    } else if (view === 'daily') {
+      // TODO: Add component to show daily report
+    }
+  }
+
   render() {
     return(
       <div>
+      <button onClick={this.changeViewToMonthly}>Show October Report</button>
+      {this.renderView()}
       <Stats stats={this.state}/>
       </div>
     )
