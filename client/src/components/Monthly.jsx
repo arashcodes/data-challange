@@ -15,10 +15,12 @@ class Monthly extends PureComponent {
 
     this.sortData = this.sortData.bind(this);
     this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
+    this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
   }
 
   componentWillMount() {
     this.findMostResponsiveRater();
+    this.findLeastResponsiveUser();
   }
 
   sortData() {
@@ -46,6 +48,21 @@ class Monthly extends PureComponent {
     this.setState({most});
   }
 
+  findLeastResponsiveUser() {
+    const least = {rater: '', total: Infinity}
+    const data = this.props.data;
+    
+    for (let key in data) {
+      if (key !== 'view') {
+        if (data[key].total < least.total) {
+          least.rater = key;
+          least.total = data[key].total;
+        }
+      }
+    }
+    this.setState({least});
+  }
+
   render() {
     return (
       <div>
@@ -68,7 +85,7 @@ class Monthly extends PureComponent {
       </BarChart>
         <br />
         <br />
-        <Stats stats={this.props.data} most={this.state.most}/>
+        <Stats stats={this.state}/>
       </div>
     );
   }
