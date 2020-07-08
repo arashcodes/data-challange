@@ -23,22 +23,10 @@ class App extends React.Component {
     this.getAllRatersData = this. getAllRatersData.bind(this);
     this.renderView = this.renderView.bind(this);
     this.changeViewToMonthly = this.changeViewToMonthly.bind(this);
-    this.sortData = this.sortData.bind(this);
   }
 
   componentDidMount() {
     this.getAllRatersData();
-  }
-
-  sortData() {
-    const data = [this.state];
-    const sorted = [];
-    for (let key in data[0]) {
-      if (key !== 'view' && key !== 'sorted')
-      sorted.push(data[0][key])
-    }
-    this.setState({sorted: sorted});
-    console.log(this.state.sorted)
   }
   
   getAllRatersData() {
@@ -149,7 +137,7 @@ class App extends React.Component {
   render() {
     return(
       <div>
-      <button onClick={this.changeViewToMonthly}>Show October Report</button>
+      <button onClick={this.changeViewToMonthly}>October's Report</button>
       <br />
       <br />
       {this.renderView()}
