@@ -121,28 +121,66 @@ getWeeklyData = (callback, data) => {
       })
     })
   })
-
-  
-  
-  // const query = `select * from dataset where "date"::${weeks[data.id]}`;
-  // pool.query(query, (err, res) => {
-  //   if (err) {
-  //     callback(err);
-  //   } else {
-  //     callback(null, res.rows)
-  //   }
-  // })
 }
 
 getDailyData = (callback, data) => {
-  console.log(data.day)
-  const query = `select * from dataset where "date"::date = '2005-10-${data.day}'`;
-  pool.query(query, (err, res) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, res.rows);
-    }
+  const query1 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'A'`;
+  const query2 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'A' and match_3_label_agreement = true;`;
+  const query3 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'A' and match_5_label_agreement = true;`;
+  const query4 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'B'`;
+  const query5 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'B' and match_3_label_agreement = true;`;
+  const query6 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'B' and match_5_label_agreement = true;`;
+  const query7 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'C'`;
+  const query8 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'C' and match_3_label_agreement = true;`;
+  const query9 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'C' and match_5_label_agreement = true;`;
+  const query10 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'D'`;
+  const query11 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'D' and match_3_label_agreement = true;`;
+  const query12 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'D' and match_5_label_agreement = true;`;
+  const query13 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E'`;
+  const query14 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_3_label_agreement = true;`;
+  const query15 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_5_label_agreement = true;`;
+  pool.query(query1, (err, res1) => {
+    pool.query(query2, (err, res2) => {
+      pool.query(query3, (err, res3) => {
+        pool.query(query4, (err, res4) => {
+          pool.query(query5, (err, res5) => {
+            pool.query(query6, (err, res6) => {
+              pool.query(query7, (err, res7) => {
+                pool.query(query8, (err, res8) => {
+                  pool.query(query9, (err, res9) => {
+                    pool.query(query10, (err, res10) => {
+                      pool.query(query11, (err, res11) => {
+                        pool.query(query12, (err, res12) => {
+                          pool.query(query13, (err, res13) => {
+                            pool.query(query14, (err, res14) => {
+                              pool.query(query15, (err, res15) => {
+                                const final = {
+                                  'A' : {rater: 'A', total: res1.rows[0].count, match3: res2.rows[0].count, match5: res3.rows[0].count},
+                                  'B' : {rater: 'B', total: res4.rows[0].count, match3: res5.rows[0].count, match5: res6.rows[0].count},
+                                  'C': {rater: 'C', total: res7.rows[0].count, match3: res8.rows[0].count, match5: res9.rows[0].count},
+                                  'D': {rater: 'D', total: res10.rows[0].count, match3: res11.rows[0].count, match5: res12.rows[0].count},
+                                  'E': {rater: 'E', total: res13.rows[0].count, match3: res14.rows[0].count, match5: res15.rows[0].count}
+                                }
+
+                                if (err) {
+                                  callback(err);
+                                } else {
+                                  callback(null, final);
+                                }
+                              })
+                            })
+                          })
+                        })
+                      })
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
   })
 }
 

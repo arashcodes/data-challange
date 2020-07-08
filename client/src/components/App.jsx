@@ -13,6 +13,7 @@ class App extends React.Component {
       D: {rater: '', total: 0, match3: 0, match5: 0},
       E: {rater: '', total: 0, match3: 0, match5: 0},
       view: '',
+      day: '',
     }
     this.getRaterDataA = this.getRaterDataA.bind(this);
     this.getRaterDataB = this.getRaterDataB.bind(this);
@@ -26,6 +27,8 @@ class App extends React.Component {
     this.getWeek2 = this.getWeek2.bind(this);
     this.getWeek3 = this.getWeek3.bind(this);
     this.getWeek4 = this.getWeek4.bind(this);
+    this.handleDailySubmit = this.handleDailySubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -131,6 +134,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
+          view: 'week1'
         })
       })
       .catch(err => {
@@ -149,6 +153,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
+          view: 'week2'
         })
       })
       .catch(err => {
@@ -167,6 +172,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
+          view: 'week3'
         })
       })
       .catch(err => {
@@ -185,6 +191,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
+          view: 'week4'
         })
       })
       .catch(err => {
@@ -199,13 +206,27 @@ class App extends React.Component {
     });
   }
 
+  handleDailySubmit() {
+    event.preventDefault();
+    console.log(this.state.day);
+  }
+
+  handleChange() {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({
+      [name]: value,
+    })
+  }
+
   renderView() {
     const view = this.state.view;
     if (view === 'monthly') {
       return <Report data={this.state}/>;
-    } else if (view === 'weekly') {
-      // TODO: Add component to show weekly report
-    } else if (view === 'daily') {
+    } else if (view === 'week1' || view === 'week2' || view === 'week3' || view === 'week4') {
+      return <Report data={this.state}/>;
+    } else {
       // TODO: Add component to show daily report
     }
   }
@@ -218,8 +239,16 @@ class App extends React.Component {
       <button onClick={this.getWeek2}>Week 2 Report</button>
       <button onClick={this.getWeek3}>Week 3 Report</button>
       <button onClick={this.getWeek4}>Week 4 Report</button>
+      <form onSubmit={this.handleDailySubmit} >
+        <label>
+          Daily Report:
+          <input type="text" name="day" placeholder="pick a date from 1 to 30" onChange={this.handleChange} value={this.state.day} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       <br />
       <br />
+      <h2>{this.state.view}</h2>
       {this.renderView()}
       </div>
     )
