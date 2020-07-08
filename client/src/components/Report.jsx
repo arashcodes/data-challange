@@ -11,6 +11,7 @@ class Report extends PureComponent {
     this.state = {
       most: '',
       least: '',
+      show: false,
     }
 
     this.sortData = this.sortData.bind(this);
@@ -21,24 +22,25 @@ class Report extends PureComponent {
   componentDidMount() {
     this.findMostResponsiveRater();
     this.findLeastResponsiveUser();
+    this.setState({show: true});
   }
 
   sortData() {
     const data = [this.props.data];
     const sorted = [];
     for (let key in data[0]) {
-      if (key !== 'view')
+      if (key !== 'view' && key !== 'day')
       sorted.push(data[0][key])
     }
     return sorted;
   }
 
   findMostResponsiveRater() {
-    const most = {rater: '', total: 0}
+    const most = {rater: '', total: -Infinity}
     const data = this.props.data;
     
     for (let key in data) {
-      if (key !== 'view') {
+      if (key !== 'view' && key !== 'day') {
         if (data[key].total > most.total) {
           most.rater = key;
           most.total = data[key].total;
@@ -53,7 +55,7 @@ class Report extends PureComponent {
     const data = this.props.data;
     
     for (let key in data) {
-      if (key !== 'view') {
+      if (key !== 'view' && key !== 'day') {
         if (data[key].total < least.total) {
           least.rater = key;
           least.total = data[key].total;
@@ -85,7 +87,8 @@ class Report extends PureComponent {
       </BarChart>
         <br />
         <br />
-        <Stats stats={this.state}/>
+        {this.state.show === true ? <Stats stats={this.state}/>: null}
+        {/* <Stats stats={this.state}/> */}
       </div>
     );
   }

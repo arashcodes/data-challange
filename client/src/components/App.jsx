@@ -12,7 +12,7 @@ class App extends React.Component {
       C: {rater: '', total: 0, match3: 0, match5: 0},
       D: {rater: '', total: 0, match3: 0, match5: 0},
       E: {rater: '', total: 0, match3: 0, match5: 0},
-      view: '',
+      view: 'monthly',
       day: '',
     }
     this.getRaterDataA = this.getRaterDataA.bind(this);
@@ -134,7 +134,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
-          view: 'week1'
+          view: 'week 1'
         })
       })
       .catch(err => {
@@ -153,7 +153,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
-          view: 'week2'
+          view: 'week 2'
         })
       })
       .catch(err => {
@@ -172,7 +172,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
-          view: 'week3'
+          view: 'week 3'
         })
       })
       .catch(err => {
@@ -191,7 +191,7 @@ class App extends React.Component {
           C: res.data['C'],
           D: res.data['D'],
           E: res.data['E'],
-          view: 'week4'
+          view: 'week 4'
         })
       })
       .catch(err => {
@@ -208,7 +208,33 @@ class App extends React.Component {
 
   handleDailySubmit() {
     event.preventDefault();
-    console.log(this.state.day);
+    if (this.state.day > '30' || this.state.day < '0' || typeof(parseInt(this.state.day)) !== 'number') {
+      alert('Invalid input')
+      return null;
+    }
+    let day;
+    if (this.state.day < '10') {
+      day = 0 + this.state.day;
+    } else {
+      day = this.state.day;
+    }
+
+    const url = `http://localhost:3000/daily/` + day;
+    const show = 'Day: ' + day;
+    axios.get(url)
+    .then(res => {
+      this.setState({
+        A: res.data['A'],
+        B: res.data['B'],
+        C: res.data['C'],
+        D: res.data['D'],
+        E: res.data['E'],
+        view: show, 
+      })
+    })
+    .catch(err => {
+      throw err;
+    })
   }
 
   handleChange() {
@@ -224,10 +250,10 @@ class App extends React.Component {
     const view = this.state.view;
     if (view === 'monthly') {
       return <Report data={this.state}/>;
-    } else if (view === 'week1' || view === 'week2' || view === 'week3' || view === 'week4') {
+    } else if (view === 'week 1' || view === 'week 2' || view === 'week 3' || view === 'week 4') {
       return <Report data={this.state}/>;
     } else {
-      // TODO: Add component to show daily report
+      return <Report data={this.state}/>;
     }
   }
 
