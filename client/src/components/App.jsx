@@ -86,7 +86,6 @@ class App extends React.Component {
   }
 
   findLowestAgreementRate() {
-    // TODO:
     const lowest = {rater: '', total: Infinity}
     const data = this.state;
     
@@ -223,7 +222,7 @@ class App extends React.Component {
   
   handleDailySubmit() {
     event.preventDefault();
-    if (this.state.day > '30' || this.state.day < '1') {
+    if (parseInt(this.state.day) > 30 || parseInt(this.state.day) < 1) {
       alert('Invalid input')
       return null;
     }

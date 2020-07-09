@@ -114,8 +114,6 @@ getMonthlyData = (callback) => {
       })
     })
   })
-
-
 }
 
 getWeeklyData = (callback, data) => {
@@ -203,6 +201,7 @@ getDailyData = (callback, data) => {
   const query13 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E'`;
   const query14 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_3_label_agreement = true;`;
   const query15 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_5_label_agreement = true;`;
+  
   pool.query(query1, (err, res1) => {
     pool.query(query2, (err, res2) => {
       pool.query(query3, (err, res3) => {
