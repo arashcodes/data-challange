@@ -335,7 +335,6 @@ class App extends React.Component {
           <input style={buttonStyle} type="submit" value="Submit" />
         </form>
         <br />
-        <br />
         <h2 style={{color: '#4e6096'}}>{this.state.view}</h2>
         {this.renderView()}
         <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} lowest={this.state.lowest} />
