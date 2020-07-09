@@ -1,5 +1,6 @@
 import React from 'react';
 import Report from './Report.jsx';
+import Stats from './Stats.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
       E: {rater: '', total: 0, match3: 0, match5: 0},
       view: 'monthly',
       day: '',
+      most: {},
     }
     this.getRaterDataA = this.getRaterDataA.bind(this);
     this.getRaterDataB = this.getRaterDataB.bind(this);
@@ -29,6 +31,7 @@ class App extends React.Component {
     this.getWeek4 = this.getWeek4.bind(this);
     this.handleDailySubmit = this.handleDailySubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
   }
 
   componentDidMount() {
@@ -122,6 +125,21 @@ class App extends React.Component {
         throw err;
       })
   }
+
+  findMostResponsiveRater() {
+    const most = {rater: '', total: -Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most') {
+        if (data[key].total > most.total) {
+          most.rater = key;
+          most.total = data[key].total;
+        }
+      }
+    }
+    this.setState({most});
+  }
   
   getWeek1() {
     const url = 'http://localhost:3000/weekly/1';
@@ -135,6 +153,8 @@ class App extends React.Component {
           D: res.data['D'],
           E: res.data['E'],
           view: 'week 1'
+        }, () => {
+          this.findMostResponsiveRater();
         })
       })
       .catch(err => {
@@ -208,7 +228,7 @@ class App extends React.Component {
 
   handleDailySubmit() {
     event.preventDefault();
-    if (this.state.day > '30' || this.state.day < '0' || typeof(parseInt(this.state.day)) !== 'number') {
+    if (this.state.day > '30' || this.state.day < '1') {
       alert('Invalid input')
       return null;
     }
@@ -276,6 +296,7 @@ class App extends React.Component {
       <br />
       <h2>{this.state.view}</h2>
       {this.renderView()}
+      <Stats most={this.state.most}/>
       </div>
     )
   }

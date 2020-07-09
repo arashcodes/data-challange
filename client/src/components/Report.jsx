@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
-import Stats from './Stats.jsx';
+// import Stats from './Stats.jsx';
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+
+// TODO: clean up Stats component remainders
 
 class Report extends PureComponent {
   constructor(props) {
@@ -11,7 +13,6 @@ class Report extends PureComponent {
     this.state = {
       most: '',
       least: '',
-      show: false,
     }
 
     this.sortData = this.sortData.bind(this);
@@ -22,7 +23,6 @@ class Report extends PureComponent {
   componentDidMount() {
     this.findMostResponsiveRater();
     this.findLeastResponsiveUser();
-    this.setState({show: true});
   }
 
   sortData() {
@@ -87,7 +87,6 @@ class Report extends PureComponent {
       </BarChart>
         <br />
         <br />
-        {this.state.show === true ? <Stats stats={this.state}/>: null}
         {/* <Stats stats={this.state}/> */}
       </div>
     );
