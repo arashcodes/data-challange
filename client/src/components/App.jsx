@@ -17,6 +17,8 @@ class App extends React.Component {
       day: '',
       most: {},
       least: {},
+      highest: {},
+      lowest: {}
     }
 
     this.renderView = this.renderView.bind(this);
@@ -30,10 +32,57 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
     this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
+    this.findHighestAgreementRate = this.findHighestAgreementRate.bind(this);
   }
 
   componentDidMount() {
     this.getMonthlyData();
+  }
+  
+  findLeastResponsiveUser() {
+    const least = {rater: '', total: Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least' && key !== 'highest' && key !== 'lowest') {
+        if (data[key].total < least.total) {
+          least.rater = key;
+          least.total = data[key].total;
+        }
+      }
+    }
+    this.setState({least});
+  }
+
+  findMostResponsiveRater() {
+    const most = {rater: '', total: -Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest') {
+        if (data[key].total > most.total) {
+          most.rater = key;
+          most.total = data[key].total;
+        }
+      }
+    }
+    this.setState({most});
+  }
+
+  findHighestAgreementRate() {
+    // TODO:
+    const highest = {rater: '', total: -Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest') {
+        if ((data[key].match3 + data[key].match5) > highest.total) {
+          highest.rater = key;
+          highest.total = parseInt(data[key].match3) + parseInt(data[key].match5);
+        }
+      }
+    }
+    this.setState({highest});
   }
 
   getMonthlyData() {
@@ -50,6 +99,7 @@ class App extends React.Component {
       }, () => {
         this.findMostResponsiveRater();
         this.findLeastResponsiveUser();
+        this.findHighestAgreementRate();
       })
     })
     .catch(err => {
@@ -57,35 +107,6 @@ class App extends React.Component {
     })
   }
 
-  findLeastResponsiveUser() {
-    const least = {rater: '', total: Infinity}
-    const data = this.state;
-    
-    for (let key in data) {
-      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least') {
-        if (data[key].total < least.total) {
-          least.rater = key;
-          least.total = data[key].total;
-        }
-      }
-    }
-    this.setState({least});
-  }
-
-  findMostResponsiveRater() {
-    const most = {rater: '', total: -Infinity}
-    const data = this.state;
-    
-    for (let key in data) {
-      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least') {
-        if (data[key].total > most.total) {
-          most.rater = key;
-          most.total = data[key].total;
-        }
-      }
-    }
-    this.setState({most});
-  }
   
   getWeek1() {
     const url = 'http://localhost:3000/weekly/1';
@@ -102,6 +123,7 @@ class App extends React.Component {
         }, () => {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
+          this.findHighestAgreementRate();
         })
       })
       .catch(err => {
@@ -124,6 +146,7 @@ class App extends React.Component {
         }, () => {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
+          this.findHighestAgreementRate();
         })
       })
       .catch(err => {
@@ -146,6 +169,7 @@ class App extends React.Component {
         }, () => {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
+          this.findHighestAgreementRate();
         })
       })
       .catch(err => {
@@ -168,20 +192,14 @@ class App extends React.Component {
         }, () => {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
+          this.findHighestAgreementRate();
         })
       })
       .catch(err => {
         throw err;
       })
   }
-
-  changeViewToMonthly() {
-    this.getAllRatersData();
-    this.setState({
-      view: 'monthly',
-    });
-  }
-
+  
   handleDailySubmit() {
     event.preventDefault();
     if (this.state.day > '30' || this.state.day < '1') {
@@ -209,6 +227,7 @@ class App extends React.Component {
       }, () => {
         this.findMostResponsiveRater();
         this.findLeastResponsiveUser();
+        this.findHighestAgreementRate();
       })
     })
     .catch(err => {
@@ -225,6 +244,13 @@ class App extends React.Component {
     })
   }
 
+  changeViewToMonthly() {
+    this.getMonthlyData();
+    this.setState({
+      view: 'monthly',
+    });
+  }
+
   renderView() {
     const view = this.state.view;
     if (view === 'monthly') {
@@ -239,23 +265,23 @@ class App extends React.Component {
   render() {
     return(
       <div>
-      <button onClick={this.changeViewToMonthly}>Month's Report</button>
-      <button onClick={this.getWeek1}>Week 1 Report</button>
-      <button onClick={this.getWeek2}>Week 2 Report</button>
-      <button onClick={this.getWeek3}>Week 3 Report</button>
-      <button onClick={this.getWeek4}>Week 4 Report</button>
-      <form onSubmit={this.handleDailySubmit} >
-        <label>
-          Daily Report:
-          <input type="text" name="day" placeholder="pick a date from 1 to 30" onChange={this.handleChange} value={this.state.day} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <br />
-      <br />
-      <h2>{this.state.view}</h2>
-      {this.renderView()}
-      <Stats most={this.state.most} least={this.state.least} />
+        <button onClick={this.changeViewToMonthly}>Month's Report</button>
+        <button onClick={this.getWeek1}>Week 1 Report</button>
+        <button onClick={this.getWeek2}>Week 2 Report</button>
+        <button onClick={this.getWeek3}>Week 3 Report</button>
+        <button onClick={this.getWeek4}>Week 4 Report</button>
+        <form onSubmit={this.handleDailySubmit} >
+          <label>
+            Daily Report:
+            <input type="text" name="day" placeholder="pick a date from 1 to 30" onChange={this.handleChange} value={this.state.day} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <br />
+        <br />
+        <h2>{this.state.view}</h2>
+        {this.renderView()}
+        <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} />
       </div>
     )
   }

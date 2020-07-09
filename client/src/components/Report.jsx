@@ -19,7 +19,7 @@ class Report extends PureComponent {
     const data = [this.props.data];
     const sorted = [];
     for (let key in data[0]) {
-      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least')
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest')
       sorted.push(data[0][key])
     }
     return sorted;
