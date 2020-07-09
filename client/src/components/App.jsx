@@ -16,7 +16,7 @@ const buttonStyle = {
   box_shadow: '0px 0px 0px 2px #9fb4f2',
 	background: 'linear-gradient(to bottom, #7892c2 5%, #476e9e 100%)',
 	background_color: '#7892c2',
-	border_radius: '10px',
+	border_radius: '25px',
 	border: '1px solid #4e6096',
 	display: 'inline-block',
 	cursor: 'pointer',
@@ -25,7 +25,8 @@ const buttonStyle = {
 	font_size: '10px',
 	padding: '5px 5px',
 	text_decoration: 'none',
-	text_shadow: '0px 1px 0px #283966',
+  text_shadow: '0px 1px 0px #283966',
+  margin: '3px',
 }
 
 /**
@@ -366,6 +367,7 @@ class App extends React.Component {
   render() {
     return(
       <div style={appStyle} >
+        <h1 style={{color: '#4e6096'}}>Lodestone Data Challenge</h1>
         <button style={buttonStyle} onClick={this.changeViewToMonthly}>October's Report</button>
         <button style={buttonStyle} onClick={this.getWeek1}>Week 1 Report</button>
         <button style={buttonStyle} onClick={this.getWeek2}>Week 2 Report</button>
@@ -379,7 +381,7 @@ class App extends React.Component {
           <input style={buttonStyle} type="submit" value="Submit" />
         </form>
         <br />
-        <h2 style={{color: '#4e6096'}}>{this.state.view}</h2>
+        <h2 style={{color: '#4e6096'}}>{this.state.view.toUpperCase()}</h2>
         {this.renderView()}
         <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} lowest={this.state.lowest} />
       </div>

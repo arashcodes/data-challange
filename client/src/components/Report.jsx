@@ -45,8 +45,8 @@ class Report extends PureComponent {
         <Tooltip />
         <Legend />
         <Bar name="total responses" dataKey="total" fill="#8884d8" />
-        <Bar name="agreement on 3 label answers" dataKey="match3" fill="#82ca9d" />
-        <Bar name="agreement on 5 label answers" dataKey="match5" fill="#ffc658" />
+        <Bar name="agreement on 3 label" dataKey="match3" fill="#82ca9d" />
+        <Bar name="agreement on 5 label" dataKey="match5" fill="#ffc658" />
       </BarChart>
         <br />
         <br />
