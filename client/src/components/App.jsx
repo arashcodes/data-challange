@@ -33,6 +33,7 @@ class App extends React.Component {
     this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
     this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
     this.findHighestAgreementRate = this.findHighestAgreementRate.bind(this);
+    this.findLowestAgreementRate = this.findLowestAgreementRate.bind(this);
   }
 
   componentDidMount() {
@@ -70,7 +71,6 @@ class App extends React.Component {
   }
 
   findHighestAgreementRate() {
-    // TODO:
     const highest = {rater: '', total: -Infinity}
     const data = this.state;
     
@@ -83,6 +83,22 @@ class App extends React.Component {
       }
     }
     this.setState({highest});
+  }
+
+  findLowestAgreementRate() {
+    // TODO:
+    const lowest = {rater: '', total: Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest') {
+        if ((data[key].match3 + data[key].match5) < lowest.total) {
+          lowest.rater = key;
+          lowest.total = parseInt(data[key].match3) + parseInt(data[key].match5);
+        }
+      }
+    }
+    this.setState({lowest});
   }
 
   getMonthlyData() {
@@ -100,6 +116,7 @@ class App extends React.Component {
         this.findMostResponsiveRater();
         this.findLeastResponsiveUser();
         this.findHighestAgreementRate();
+        this.findLowestAgreementRate();
       })
     })
     .catch(err => {
@@ -124,6 +141,7 @@ class App extends React.Component {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
           this.findHighestAgreementRate();
+          this.findLowestAgreementRate();
         })
       })
       .catch(err => {
@@ -147,6 +165,7 @@ class App extends React.Component {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
           this.findHighestAgreementRate();
+          this.findLowestAgreementRate();
         })
       })
       .catch(err => {
@@ -170,6 +189,7 @@ class App extends React.Component {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
           this.findHighestAgreementRate();
+          this.findLowestAgreementRate();
         })
       })
       .catch(err => {
@@ -193,6 +213,7 @@ class App extends React.Component {
           this.findMostResponsiveRater();
           this.findLeastResponsiveUser();
           this.findHighestAgreementRate();
+          this.findLowestAgreementRate();
         })
       })
       .catch(err => {
@@ -228,6 +249,7 @@ class App extends React.Component {
         this.findMostResponsiveRater();
         this.findLeastResponsiveUser();
         this.findHighestAgreementRate();
+        this.findLowestAgreementRate();
       })
     })
     .catch(err => {
@@ -281,7 +303,7 @@ class App extends React.Component {
         <br />
         <h2>{this.state.view}</h2>
         {this.renderView()}
-        <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} />
+        <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} lowest={this.state.lowest} />
       </div>
     )
   }
