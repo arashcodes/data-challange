@@ -98,12 +98,16 @@ class App extends React.Component {
   findHighestAgreementRate() {
     const highest = {rater: '', total: -Infinity}
     const data = this.state;
-    
+    let percentage;
+
     for (let key in data) {
       if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest') {
-        if ((data[key].match3 + data[key].match5) > highest.total) {
+
+        percentage = ((parseInt(data[key].match3) + parseInt(data[key].match5)) / (parseInt((data[key].total)) * 2) * 100).toFixed(2);
+
+        if (percentage > highest.total) {
           highest.rater = key;
-          highest.total = parseInt(data[key].match3) + parseInt(data[key].match5);
+          highest.total = percentage;
         }
       }
     }
@@ -113,12 +117,16 @@ class App extends React.Component {
   findLowestAgreementRate() {
     const lowest = {rater: '', total: Infinity}
     const data = this.state;
-    
+    let percentage;
+
     for (let key in data) {
       if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least'&& key !== 'highest' && key !== 'lowest') {
-        if ((data[key].match3 + data[key].match5) < lowest.total) {
+
+        percentage = ((parseInt(data[key].match3) + parseInt(data[key].match5)) / (parseInt((data[key].total)) * 2) * 100).toFixed(2);
+
+        if (percentage < lowest.total) {
           lowest.rater = key;
-          lowest.total = parseInt(data[key].match3) + parseInt(data[key].match5);
+          lowest.total = percentage;
         }
       }
     }
@@ -314,7 +322,7 @@ class App extends React.Component {
   render() {
     return(
       <div style={appStyle} >
-        <button style={buttonStyle} onClick={this.changeViewToMonthly}>Month's Report</button>
+        <button style={buttonStyle} onClick={this.changeViewToMonthly}>October's Report</button>
         <button style={buttonStyle} onClick={this.getWeek1}>Week 1 Report</button>
         <button style={buttonStyle} onClick={this.getWeek2}>Week 2 Report</button>
         <button style={buttonStyle} onClick={this.getWeek3}>Week 3 Report</button>
@@ -328,7 +336,7 @@ class App extends React.Component {
         </form>
         <br />
         <br />
-        <h2>{this.state.view}</h2>
+        <h2 style={{color: '#4e6096'}}>{this.state.view}</h2>
         {this.renderView()}
         <Stats most={this.state.most} least={this.state.least} highest={this.state.highest} lowest={this.state.lowest} />
       </div>
