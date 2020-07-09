@@ -8,9 +8,7 @@ class Report extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    }
+    this.state = {}
 
     this.sortData = this.sortData.bind(this);
   }

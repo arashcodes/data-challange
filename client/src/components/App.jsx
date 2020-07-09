@@ -3,6 +3,31 @@ import Report from './Report.jsx';
 import Stats from './Stats.jsx';
 import axios from 'axios';
 
+const appStyle = {
+  padding: '10px',
+  width: '600px',
+  border_radius: '21px 21px 21px 21px',
+  _moz_border_radius: '21px 21px 21px 21px',
+  _webkit_border_radius: '21px 21px 21px 21px',
+  border: '3px solid #5150ff',
+}
+
+const buttonStyle = {
+  box_shadow: '0px 0px 0px 2px #9fb4f2',
+	background: 'linear-gradient(to bottom, #7892c2 5%, #476e9e 100%)',
+	background_color: '#7892c2',
+	border_radius: '10px',
+	border: '1px solid #4e6096',
+	display: 'inline-block',
+	cursor: 'pointer',
+	color: '#ffffff',
+	font_family: 'Arial',
+	font_size: '10px',
+	padding: '5px 5px',
+	text_decoration: 'none',
+	text_shadow: '0px 1px 0px #283966',
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -226,7 +251,9 @@ class App extends React.Component {
       alert('Invalid input')
       return null;
     }
+
     let day;
+
     if (this.state.day < '10') {
       day = 0 + this.state.day;
     } else {
@@ -249,6 +276,7 @@ class App extends React.Component {
         this.findLeastResponsiveUser();
         this.findHighestAgreementRate();
         this.findLowestAgreementRate();
+        this.setState({day: ''});
       })
     })
     .catch(err => {
@@ -285,18 +313,18 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
-        <button onClick={this.changeViewToMonthly}>Month's Report</button>
-        <button onClick={this.getWeek1}>Week 1 Report</button>
-        <button onClick={this.getWeek2}>Week 2 Report</button>
-        <button onClick={this.getWeek3}>Week 3 Report</button>
-        <button onClick={this.getWeek4}>Week 4 Report</button>
+      <div style={appStyle} >
+        <button style={buttonStyle} onClick={this.changeViewToMonthly}>Month's Report</button>
+        <button style={buttonStyle} onClick={this.getWeek1}>Week 1 Report</button>
+        <button style={buttonStyle} onClick={this.getWeek2}>Week 2 Report</button>
+        <button style={buttonStyle} onClick={this.getWeek3}>Week 3 Report</button>
+        <button style={buttonStyle} onClick={this.getWeek4}>Week 4 Report</button>
         <form onSubmit={this.handleDailySubmit} >
           <label>
             Daily Report:
             <input type="text" name="day" placeholder="pick a date from 1 to 30" onChange={this.handleChange} value={this.state.day} />
           </label>
-          <input type="submit" value="Submit" />
+          <input style={buttonStyle} type="submit" value="Submit" />
         </form>
         <br />
         <br />
