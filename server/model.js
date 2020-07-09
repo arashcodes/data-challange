@@ -19,6 +19,9 @@ pool.connect((err, client, release) => {
   });
 });
 
+/**
+ * Inserts randomly generated data to the database. 
+ */
 seedData = (data) => {
   const query = 'insert into dataset(date, rater, correct_answer_3_label, correct_answer_5_label, rater_answer_3_label, rater_answer_5_label) values($1, $2, $3, $4, $5, $6)';
   const queryVal = [data.date, data.rater, data.correct_answer_3_label, data.correct_answer_5_label, data.rater_answer_3_label, data.rater_answer_5_label];
@@ -31,6 +34,9 @@ seedData = (data) => {
     });
 };
 
+/**
+ * Retrieves data for a specific Rater (A - E). 
+ */
 getRaterData = (callback, data) => {
   const query1 = `select count(*) from dataset where rater = '${data.id}';`;
   const query2 = `select count(*) from dataset where rater = '${data.id}' and match_3_label_agreement = true;`;
@@ -54,6 +60,9 @@ getRaterData = (callback, data) => {
   })
 }
 
+/**
+ * Retrieves count of total responses, total correct 3-label and correct 5-label responses,  provided by raters and compared to engineer's response in the month of October.
+ */
 getMonthlyData = (callback) => {
   const query1 = `select count(*) from dataset where rater = 'A';`;
   const query2 = `select count(*) from dataset where rater = 'A' and match_3_label_agreement = true;`;
@@ -116,6 +125,9 @@ getMonthlyData = (callback) => {
   })
 }
 
+/**
+ * Retrieves count of total responses, total correct 3-label and correct 5-label responses,  provided by raters and compared to engineer's response in a specified week in October.
+ */
 getWeeklyData = (callback, data) => {
   const weeks = {
     '1': `date >= '2005-10-01' and date <= '2005-10-07'`,
@@ -185,6 +197,9 @@ getWeeklyData = (callback, data) => {
   })
 }
 
+/**
+ * Retrieves count of total responses, total correct 3-label and correct 5-label responses,  provided by raters and compared to engineer's response in a specified day in October.
+ */
 getDailyData = (callback, data) => {
   const query1 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'A'`;
   const query2 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'A' and match_3_label_agreement = true;`;
@@ -201,7 +216,7 @@ getDailyData = (callback, data) => {
   const query13 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E'`;
   const query14 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_3_label_agreement = true;`;
   const query15 = `select count(*) from dataset where "date"::date = '2005-10-${data.day}' and rater = 'E' and match_5_label_agreement = true;`;
-  
+
   pool.query(query1, (err, res1) => {
     pool.query(query2, (err, res2) => {
       pool.query(query3, (err, res3) => {

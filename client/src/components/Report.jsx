@@ -1,19 +1,24 @@
 import React, { PureComponent } from 'react';
-// import Stats from './Stats.jsx';
 import {
-  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
+/**
+ * Report is a stateful child component to App. It receives data from App and feeds data to the bar chart imported from 'Recharts' library.
+ */
 class Report extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {}
 
-    this.sortData = this.sortData.bind(this);
+    this.filterData = this.filterData.bind(this);
   }
 
-  sortData() {
+  /**
+   * This method filters the data received from the parent component to be reflected in the bar chart.
+   */
+  filterData() {
     const data = [this.props.data];
     const sorted = [];
     for (let key in data[0]) {
@@ -29,7 +34,7 @@ class Report extends PureComponent {
       <BarChart
         width={500}
         height={300}
-        data={this.sortData()}
+        data={this.filterData()}
         margin={{
           top: 5, right: 30, left: 20, bottom: 5,
         }}

@@ -1,5 +1,9 @@
 const Model = require('./model.js');
 
+
+/**
+ * Routs request coming from server to the database.
+ */
 module.exports = {
   getRaterData: (id, res) => {
     Model.getRaterData((err, data) => {

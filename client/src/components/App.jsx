@@ -28,6 +28,9 @@ const buttonStyle = {
 	text_shadow: '0px 1px 0px #283966',
 }
 
+/**
+ * App is the main component is the parent to Report and Stats child components.
+ */
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -61,10 +64,16 @@ class App extends React.Component {
     this.findLowestAgreementRate = this.findLowestAgreementRate.bind(this);
   }
 
+  /**
+   * Initializes the application with the month of October's data.
+   */
   componentDidMount() {
     this.getMonthlyData();
   }
   
+  /**
+   * This method iterates through the Raters A to E data and finds the least responsive Rater, their total number of responses, and finally updates the App's state accordingly. 
+   */
   findLeastResponsiveUser() {
     const least = {rater: '', total: Infinity}
     const data = this.state;
@@ -80,6 +89,9 @@ class App extends React.Component {
     this.setState({least});
   }
 
+  /**
+   * This method iterates through the Raters A to E data and finds the most responsive Rater, their total number of responses, and finally updates the App's state accordingly. 
+   */
   findMostResponsiveRater() {
     const most = {rater: '', total: -Infinity}
     const data = this.state;
@@ -95,6 +107,9 @@ class App extends React.Component {
     this.setState({most});
   }
 
+  /**
+   * This method iterates through the Raters A to E data and finds the Rater with the highest overall correct responses (a.k.a agreement rate) in percentage and updates the App's state accordingly.
+   */
   findHighestAgreementRate() {
     const highest = {rater: '', total: -Infinity}
     const data = this.state;
@@ -114,6 +129,9 @@ class App extends React.Component {
     this.setState({highest});
   }
 
+  /**
+   * This method iterates through the Raters A to E data and finds the Rater with the lowest overall correct responses (a.k.a agreement rate) in percentage and updates the App's state accordingly.
+   */
   findLowestAgreementRate() {
     const lowest = {rater: '', total: Infinity}
     const data = this.state;
@@ -133,6 +151,9 @@ class App extends React.Component {
     this.setState({lowest});
   }
 
+  /**
+   * Clicking on "October's Report" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in the whole month recorded in the database. Then it updates the App's state with new data along with secondary calculation callbacks.
+   */
   getMonthlyData() {
     const url = 'http://localhost:3000/monthly';
     axios.get(url)
@@ -156,7 +177,9 @@ class App extends React.Component {
     })
   }
 
-  
+  /**
+   * Clicking on "Week 1 Report" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in the first week of October recorded in the database. Then it updates the App's state with new data along with secondary calculation callbacks.
+   */
   getWeek1() {
     const url = 'http://localhost:3000/weekly/1';
     
@@ -181,6 +204,9 @@ class App extends React.Component {
       })
   }
 
+  /**
+   * Clicking on "Week 2 Report" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in the second week of October recorded in the database. Then it updates the App's state with new data along with secondary calculation callbacks.
+   */
   getWeek2() {
     const url = 'http://localhost:3000/weekly/2';
     
@@ -205,6 +231,9 @@ class App extends React.Component {
       })
   }
 
+  /**
+   * Clicking on "Week 3 Report" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in the third week of October recorded in the database. Then it updates the App's state with new data along with secondary calculation callbacks.
+   */
   getWeek3() {
     const url = 'http://localhost:3000/weekly/3';
     
@@ -229,6 +258,9 @@ class App extends React.Component {
       })
   }
 
+  /**
+   * Clicking on "Week 4 Report" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in the fourth week of October recorded in the database. Then it updates the App's state with new data along with secondary calculation callbacks.
+   */
   getWeek4() {
     const url = 'http://localhost:3000/weekly/4';
     
@@ -252,7 +284,10 @@ class App extends React.Component {
         throw err;
       })
   }
-  
+
+  /**
+   * Clicking on "Submit" button calls this method with a Get request to server in order to receive data including total responses, total correct 3-label and 5-label responses in a user's inputted date of October recorded in the database. It also validates user's input to be within the correct range. Finally, it updates the App's state with new data, clears the input box, and calls the secondary calculation callbacks.
+   */
   handleDailySubmit() {
     event.preventDefault();
     if (parseInt(this.state.day) > 30 || parseInt(this.state.day) < 1) {
@@ -292,6 +327,9 @@ class App extends React.Component {
     })
   }
 
+  /**
+   * This method handle changes as the user types in the daily report input box. The code is written in a way to support multiple input entries if needed in the future.
+   */
   handleChange() {
     const value = event.target.value;
     const name = event.target.name;
@@ -301,6 +339,9 @@ class App extends React.Component {
     })
   }
 
+  /**
+   * This method sets the state's view back to monthly and also calls the getMonthlyData method. 
+   */
   changeViewToMonthly() {
     this.getMonthlyData();
     this.setState({
@@ -308,6 +349,9 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * This method handles the changes in the App's state view and returns related data to the Report component.
+   */
   renderView() {
     const view = this.state.view;
     if (view === 'monthly') {

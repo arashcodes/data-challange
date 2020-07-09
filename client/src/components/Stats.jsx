@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Stats is a stateless child component to App and presents data received from App.
+ */
 const Stats = (props) => {
   return(
     <div>
