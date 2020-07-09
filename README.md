@@ -16,4 +16,4 @@
 	* update dataset set match_3_label_agreement = (correct_answer_3_label = rater_answer_3_label);
 	* update dataset set match_5_label_agreement = (correct_answer_5_label = rater_answer_5_label);
 
-7. From root directory run "npm start" to access the app on localhost:3000
+7. From root directory run "npm start" to access the app on localhost:3000. You may rename the port number in root/server/index.js.
