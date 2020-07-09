@@ -16,15 +16,12 @@ class App extends React.Component {
       view: 'monthly',
       day: '',
       most: {},
+      least: {},
     }
-    this.getRaterDataA = this.getRaterDataA.bind(this);
-    this.getRaterDataB = this.getRaterDataB.bind(this);
-    this.getRaterDataC = this.getRaterDataC.bind(this);
-    this.getRaterDataD = this.getRaterDataD.bind(this);
-    this.getRaterDataE = this.getRaterDataE.bind(this);
-    this.getAllRatersData = this. getAllRatersData.bind(this);
+
     this.renderView = this.renderView.bind(this);
     this.changeViewToMonthly = this.changeViewToMonthly.bind(this);
+    this.getMonthlyData = this.getMonthlyData.bind(this);
     this.getWeek1 = this.getWeek1.bind(this);
     this.getWeek2 = this.getWeek2.bind(this);
     this.getWeek3 = this.getWeek3.bind(this);
@@ -32,98 +29,47 @@ class App extends React.Component {
     this.handleDailySubmit = this.handleDailySubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
+    this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
   }
 
   componentDidMount() {
-    this.getAllRatersData();
-  }
-  
-  getAllRatersData() {
-    this.getRaterDataA();
-    this.getRaterDataB();
-    this.getRaterDataC();
-    this.getRaterDataD();
-    this.getRaterDataE();
+    this.getMonthlyData();
   }
 
-  getRaterDataA() {
-    const url = `http://localhost:3000/rater/A`;
+  getMonthlyData() {
+    const url = 'http://localhost:3000/monthly';
     axios.get(url)
-      .then(res => {
-        this.setState({A: {
-          rater: 'A',
-          total: res.data.total,
-          match3: res.data.match3,
-          match5: res.data.match5,
-        }})
+    .then(res => {
+      this.setState({
+        A: res.data['A'],
+        B: res.data['B'],
+        C: res.data['C'],
+        D: res.data['D'],
+        E: res.data['E'],
+        view: 'monthly'
+      }, () => {
+        this.findMostResponsiveRater();
+        this.findLeastResponsiveUser();
       })
-      .catch(err => {
-        throw err;
-      })
+    })
+    .catch(err => {
+      throw err;
+    })
   }
 
-  getRaterDataB() {
-    const url = `http://localhost:3000/rater/B`;
-    axios.get(url)
-      .then(res => {
-        this.setState({B: {
-          rater: 'B',
-          total: res.data.total,
-          match3: res.data.match3,
-          match5: res.data.match5,
-        }})
-      })
-      .catch(err => {
-        throw err;
-      })
-  }
-
-  getRaterDataC() {
-    const url = `http://localhost:3000/rater/C`;
-    axios.get(url)
-      .then(res => {
-        this.setState({C: {
-          rater: 'C',
-          total: res.data.total,
-          match3: res.data.match3,
-          match5: res.data.match5,
-        }})
-      })
-      .catch(err => {
-        throw err;
-      })
-  }
-
-  getRaterDataD() {
-    const url = `http://localhost:3000/rater/D`;
-    axios.get(url)
-      .then(res => {
-        this.setState({D: {
-          rater: 'D',
-          total: res.data.total,
-          match3: res.data.match3,
-          match5: res.data.match5,
-        }})
-      })
-      .catch(err => {
-        throw err;
-      })
-  }
-
-  getRaterDataE() {
-    const url = `http://localhost:3000/rater/E`;
-    axios.get(url)
-      .then(res => {
-        this.setState({E: {
-          rater: 'E',
-          total: res.data.total,
-          match3: res.data.match3,
-          match5: res.data.match5,
-        }})
-      })
-      .catch(err => {
-        throw err;
-      })
+  findLeastResponsiveUser() {
+    const least = {rater: '', total: Infinity}
+    const data = this.state;
+    
+    for (let key in data) {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least') {
+        if (data[key].total < least.total) {
+          least.rater = key;
+          least.total = data[key].total;
+        }
+      }
+    }
+    this.setState({least});
   }
 
   findMostResponsiveRater() {
@@ -131,7 +77,7 @@ class App extends React.Component {
     const data = this.state;
     
     for (let key in data) {
-      if (key !== 'view' && key !== 'day' && key !== 'most') {
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least') {
         if (data[key].total > most.total) {
           most.rater = key;
           most.total = data[key].total;
@@ -155,6 +101,7 @@ class App extends React.Component {
           view: 'week 1'
         }, () => {
           this.findMostResponsiveRater();
+          this.findLeastResponsiveUser();
         })
       })
       .catch(err => {
@@ -174,6 +121,9 @@ class App extends React.Component {
           D: res.data['D'],
           E: res.data['E'],
           view: 'week 2'
+        }, () => {
+          this.findMostResponsiveRater();
+          this.findLeastResponsiveUser();
         })
       })
       .catch(err => {
@@ -193,6 +143,9 @@ class App extends React.Component {
           D: res.data['D'],
           E: res.data['E'],
           view: 'week 3'
+        }, () => {
+          this.findMostResponsiveRater();
+          this.findLeastResponsiveUser();
         })
       })
       .catch(err => {
@@ -212,6 +165,9 @@ class App extends React.Component {
           D: res.data['D'],
           E: res.data['E'],
           view: 'week 4'
+        }, () => {
+          this.findMostResponsiveRater();
+          this.findLeastResponsiveUser();
         })
       })
       .catch(err => {
@@ -250,6 +206,9 @@ class App extends React.Component {
         D: res.data['D'],
         E: res.data['E'],
         view: show, 
+      }, () => {
+        this.findMostResponsiveRater();
+        this.findLeastResponsiveUser();
       })
     })
     .catch(err => {
@@ -296,7 +255,7 @@ class App extends React.Component {
       <br />
       <h2>{this.state.view}</h2>
       {this.renderView()}
-      <Stats most={this.state.most}/>
+      <Stats most={this.state.most} least={this.state.least} />
       </div>
     )
   }

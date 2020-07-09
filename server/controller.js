@@ -29,5 +29,15 @@ module.exports = {
         res.status(200).send(data);
       }
     }, day);
-  }
+  },
+
+  getMonthlyData: (req, res) => {
+    Model.getMonthlyData((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    })
+  },
 };

@@ -4,65 +4,25 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
-// TODO: clean up Stats component remainders
-
 class Report extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      most: '',
-      least: '',
+
     }
 
     this.sortData = this.sortData.bind(this);
-    this.findMostResponsiveRater = this.findMostResponsiveRater.bind(this);
-    this.findLeastResponsiveUser = this.findLeastResponsiveUser.bind(this);
-  }
-
-  componentDidMount() {
-    this.findMostResponsiveRater();
-    this.findLeastResponsiveUser();
   }
 
   sortData() {
     const data = [this.props.data];
     const sorted = [];
     for (let key in data[0]) {
-      if (key !== 'view' && key !== 'day')
+      if (key !== 'view' && key !== 'day' && key !== 'most' && key !== 'least')
       sorted.push(data[0][key])
     }
     return sorted;
-  }
-
-  findMostResponsiveRater() {
-    const most = {rater: '', total: -Infinity}
-    const data = this.props.data;
-    
-    for (let key in data) {
-      if (key !== 'view' && key !== 'day') {
-        if (data[key].total > most.total) {
-          most.rater = key;
-          most.total = data[key].total;
-        }
-      }
-    }
-    this.setState({most});
-  }
-
-  findLeastResponsiveUser() {
-    const least = {rater: '', total: Infinity}
-    const data = this.props.data;
-    
-    for (let key in data) {
-      if (key !== 'view' && key !== 'day') {
-        if (data[key].total < least.total) {
-          least.rater = key;
-          least.total = data[key].total;
-        }
-      }
-    }
-    this.setState({least});
   }
 
   render() {
@@ -87,7 +47,6 @@ class Report extends PureComponent {
       </BarChart>
         <br />
         <br />
-        {/* <Stats stats={this.state}/> */}
       </div>
     );
   }
