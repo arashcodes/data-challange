@@ -30,7 +30,7 @@ const buttonStyle = {
 }
 
 /**
- * App is the main component is the parent to Report and Stats child components.
+ * App is the main component and it is the parent to Report and Stats child components.
  */
 class App extends React.Component {
   constructor(props) {
