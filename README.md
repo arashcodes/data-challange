@@ -1,5 +1,5 @@
 # data-challenge
-This a full-stack app that works with randomly generated data by provided by engineers and the responses gathered from five raters. After generating the data and following the instruction below, user can monitor the total responses provided by raters to 3 label and 5 label questions. The sample data covers Oct. 1, 2005 to Oct. 30, 2005. Using a bar chart and with the options provided user can compare raters data by daily, weekly or monthly.
+This is a full-stack app that works with randomly generated data, provided by engineers and the responses gathered from five raters. After generating the data following the instructions below, user can monitor the total responses provided by raters to 3 label and 5 label questions. The sample data covers Oct. 1, 2005 to Oct. 30, 2005. Using a bar chart and with the options provided user can compare raters data by daily, weekly or monthly.
 
 The program is written in JavaScript and React on the front-end and Node.js and PostgreSQL on the back-end. 
 
